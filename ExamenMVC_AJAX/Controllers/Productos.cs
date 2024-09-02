@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ExamenMVC_AJAX.Models;
 
 namespace ExamenMVC_AJAX.Controllers
 {
