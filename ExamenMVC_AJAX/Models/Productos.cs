@@ -1,5 +1,5 @@
 ﻿namespace ExamenMVC_AJAX.Models
-{
+{//pruebita
     public class Productos
     {
         public int Producto_Id { get; set; }
