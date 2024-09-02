@@ -3,75 +3,123 @@
     ViewData["Title"] = "Index";
 }
 
+<!-- Caja de textos-->
+
 <h1>Productos</h1>
 
-<h2>Lista de Productos</h2>
-<input type="text" id="txtFilter" />
-<input type="text" id="txtFiltrer2" />
+<br>
 
-<button id="listEnrollmentsButton" class="btn btn-primary">Listar Matrículas</button>
+<div class="form-row">
+    <div class="form-group col-md-3">
+        <label for="Nombre">Nombre:</label>
+        <input type="text" id="Nombre" name="Nombre" class="form-control" />
+    </div>
+    <br>
+    <div class="form-group col-md-3">
+        <label for="Precio">Precio:</label>
+        <input type="number" id="Precio" name="Precio" class="form-control" />
+    </div>
+    
+</div>
 
+<br>
+<br>
+<br>
+
+
+<!-- Boton Listar-->
+
+<button id="listarproducto" class="btn btn-primary">Listar Produtos</button>
+
+<!-- Boton Crear nuevo producto-->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Crear Nuevo Producto</button>
+<br>
+<br>
 
 <table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Date</th>
-            <th>Number</th>
-            <th>Student</th>
-            <th>Course</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Fecha de Vencimiento</th>
         </tr>
     </thead>
+
     <tbody>
         <!-- Aquí se llenará la tabla con los estudiantes -->
     </tbody>
+
 </table>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Crear nuevo Producto</h4>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="nombre:">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="c1">Precio:</label>
+                        <input type="text" class="form-control" id="c1">
+                    </div>
+                    <div class="form-group">
+                        <label for="c2">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="c2">
+                    </div>
+
+                    <button id="btnAdd" type="button" class="btn btn-primary" data-dismiss="modal">Crear</button>
+                    <button id="btnCanc" type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- SCRIPT -->
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+
+
 <script>
-    $(document).ready(function () {
+    
+        $(document).ready(function () {
+  
+        //Cargar el contenido del modal para crear estudiante
+        $('#crearproducto').click(function () {
 
-        loadEnrollments();
-
-        $('#listEnrollmentsButton').click(function () {
-
-            loadEnrollments();
-
-        });
-
-        function loadEnrollments() {
-
-            var filterParameter = $('#txtFilter').val();
-
+            //Si quiero mostrar sin usar la vista parcial
+            //$('#createStudentModal').modal('show');
             $.ajax({
                 type: "GET",
-                url: "/EnrollmentsAjax/GetEnrollments?filter=" + filterParameter,
-                success: function (enrollments) {
-
-                    var tableBody = $('table tbody');
-                    tableBody.empty(); // Vaciar la tabla
-
-                    enrollments.forEach(function (enrollment) {
-                        var newRow = `
-                                            <tr>
-                                                    <td>${enrollment.enrollmentID}</td>
-                                                    <td>${enrollment.date}</td>
-                                                    <td>${enrollment.number}</td>
-                                                    <td>${enrollment.student.firstName + " " + enrollment.student.lastName}</td>
-                                                    <td>${enrollment.course.name}</td>
-
-                                            </tr>`;
-                        tableBody.append(newRow);
-                    });
-
+                url: "/Productos/CreateProductos",
+                success: function (response) {
+                    $('.modal-body').html(response);
+                    $('#createStudentModal').modal('show');
                 },
                 error: function () {
-                    alert('Hubo un error al listar los productos.');
+                    alert('Hubo un error al cargar el formulario.');
                 }
             });
-        }
+        });
     });
-
+    
 </script>
+
